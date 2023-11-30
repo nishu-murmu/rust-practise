@@ -1,0 +1,32 @@
+Rust ownership mainly contains three major rules:
+
+1. Each value in rust has a variable that's called its owner.
+2. There can be only one owner at a time.
+3. When the owner goes out of the scope, the value is dropped.
+
+Ownership concepts =>
+
+1. The memory is automatically returned once the variable that owns it goes out of scope
+2. Memory de-allocation of resources works somewhat like RAII in C++.
+
+
+(When a resource-owning stack object goes out of scope, its destructor is automatically invoked. In this way, garbage collection in C++ is closely related to object lifetime, and is deterministic. A resource is always released at a known point in the program, which you can control. Only deterministic destructors like those in C++ can handle memory and non-memory resources equally.
+
+The following example shows a simple object w. It's declared on the stack at function scope, and is destroyed at the end of the function block. The object w owns no resources (such as heap-allocated memory). Its only member g is itself declared on the stack, and simply goes out of scope along with w. No special code is needed in the widget destructor.)
+
+while copying strings in rust
+it does not copy the heap memory
+it only copies the pointer, capacity and length of that string to another string
+this three things of string is collectively stored in stack
+
+for example =>
+let s = String::from("hello");
+let t = s;
+
+now when this two variables goes out of scope both of them tries to free the same memory
+this is memory safety error known as double free error and this can lead to potentially security
+vulnerabilities.
+
+To prevent this error what Rust does it that it invalidates the first variable after copying the data of first variable to second variable
+This process is called "move" which means that it does not create a shallow copy and invalidates the first variable.
+
